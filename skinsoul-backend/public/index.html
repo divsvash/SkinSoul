@@ -1,0 +1,2197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkinSoul — Your Skin's Best Friend</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF6F0;
+    --warm-white: #FDF9F5;
+    --blush: #F2D5C4;
+    --rose: #D4836A;
+    --deep-rose: #A85A42;
+    --sage: #8BAF8D;
+    --deep-sage: #4A7A5C;
+    --sand: #C9B89A;
+    --text-dark: #2C1F1A;
+    --text-mid: #6B4E3D;
+    --text-light: #9C7B6B;
+    --gold: #C9A96E;
+    --water-blue: #7BB8D4;
+    --water-light: #B8DFF0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ===== NAVIGATION ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px;
+    background: rgba(250,246,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,184,154,0.3);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 600;
+    color: var(--deep-rose);
+    letter-spacing: 0.02em;
+  }
+  .nav-logo span { font-style: italic; color: var(--sage); }
+  .nav-tabs {
+    display: flex; gap: 6px;
+    background: rgba(201,184,154,0.2);
+    border-radius: 50px; padding: 5px;
+  }
+  .nav-tab {
+    padding: 8px 18px; border-radius: 50px;
+    font-size: 0.82rem; font-weight: 500;
+    cursor: pointer; transition: all 0.3s ease;
+    color: var(--text-mid); border: none; background: transparent;
+    white-space: nowrap;
+  }
+  .nav-tab.active {
+    background: var(--deep-rose); color: white;
+    box-shadow: 0 2px 12px rgba(168,90,66,0.3);
+  }
+  .nav-tab:hover:not(.active) { background: rgba(168,90,66,0.1); }
+
+  /* ===== PAGES ===== */
+  .page { display: none; padding-top: 80px; min-height: 100vh; }
+  .page.active { display: block; }
+
+  /* ===== HOME / DASHBOARD ===== */
+  .dashboard-hero {
+    padding: 50px 40px 30px;
+    display: grid; grid-template-columns: 1fr 320px;
+    gap: 30px; max-width: 1200px; margin: 0 auto;
+  }
+
+  .greeting-section h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem; font-weight: 300;
+    line-height: 1.1; color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+  .greeting-section h1 em {
+    font-style: italic; color: var(--deep-rose);
+  }
+  .greeting-sub {
+    font-size: 0.92rem; color: var(--text-light);
+    margin-bottom: 30px;
+  }
+
+  /* UV Banner */
+  .uv-banner {
+    background: linear-gradient(135deg, #FF8C42, #FFD166);
+    border-radius: 20px; padding: 20px 24px;
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 20px; cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 20px rgba(255,140,66,0.25);
+  }
+  .uv-banner:hover { transform: translateY(-2px); }
+  .uv-icon { font-size: 2.4rem; }
+  .uv-info h3 { font-size: 0.8rem; font-weight: 500; color: rgba(44,31,26,0.7); text-transform: uppercase; letter-spacing: 0.1em; }
+  .uv-info p { font-size: 1.4rem; font-weight: 600; color: var(--text-dark); }
+  .uv-info small { font-size: 0.78rem; color: rgba(44,31,26,0.65); }
+
+  /* Quick actions */
+  .quick-actions {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  .action-card {
+    background: white; border-radius: 18px; padding: 20px;
+    cursor: pointer; transition: all 0.3s ease;
+    border: 1.5px solid transparent;
+    box-shadow: 0 2px 12px rgba(44,31,26,0.06);
+  }
+  .action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(44,31,26,0.12);
+    border-color: var(--blush);
+  }
+  .action-card .card-icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .action-card h4 { font-size: 0.9rem; font-weight: 500; margin-bottom: 4px; }
+  .action-card p { font-size: 0.78rem; color: var(--text-light); }
+
+  /* Pet + Water Widget */
+  .pet-water-widget {
+    background: linear-gradient(160deg, #EBF8F0, #D4EDE8);
+    border-radius: 24px; padding: 24px;
+    display: flex; flex-direction: column; align-items: center;
+    box-shadow: 0 4px 20px rgba(75,122,92,0.12);
+    position: relative; overflow: hidden;
+  }
+  .pet-widget-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-weight: 600;
+    color: var(--deep-sage); margin-bottom: 4px;
+  }
+  .pet-date { font-size: 0.75rem; color: var(--sage); margin-bottom: 16px; }
+
+  /* Animated Pet */
+  .pet-container {
+    position: relative; width: 140px; height: 140px;
+    margin-bottom: 16px;
+  }
+  .pet-svg { width: 140px; height: 140px; }
+  .pet-glow {
+    position: absolute; inset: -10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,175,141,0.3), transparent 70%);
+    animation: petGlow 3s ease-in-out infinite;
+  }
+  @keyframes petGlow {
+    0%,100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 1; }
+  }
+  .pet-bounce { animation: petBounce 2s ease-in-out infinite; }
+  @keyframes petBounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  /* Water tracker */
+  .water-label { font-size: 0.82rem; color: var(--deep-sage); font-weight: 500; margin-bottom: 10px; }
+  .water-drops {
+    display: flex; gap: 7px; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 14px;
+  }
+  .drop {
+    width: 28px; height: 34px; cursor: pointer;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(123,184,212,0.3));
+  }
+  .drop svg { width: 100%; height: 100%; }
+  .drop.filled svg path { fill: var(--water-blue); }
+  .drop:not(.filled) svg path { fill: rgba(123,184,212,0.25); stroke: rgba(123,184,212,0.5); stroke-width: 1; }
+  .drop:hover { transform: scale(1.2) translateY(-2px); }
+  .drop.filled { animation: dropFill 0.4s ease; }
+  @keyframes dropFill {
+    0% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+  .water-count { font-size: 0.8rem; color: var(--deep-sage); text-align: center; }
+  .water-btn {
+    margin-top: 10px; padding: 10px 22px;
+    background: var(--water-blue); color: white;
+    border: none; border-radius: 50px; cursor: pointer;
+    font-size: 0.82rem; font-weight: 500;
+    transition: all 0.2s; box-shadow: 0 3px 12px rgba(123,184,212,0.4);
+  }
+  .water-btn:hover { background: #5a9ab8; transform: translateY(-1px); }
+
+  /* Reminders */
+  .reminders-section {
+    max-width: 1200px; margin: 0 auto; padding: 10px 40px 40px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600;
+    color: var(--text-dark); margin-bottom: 16px;
+  }
+  .reminders-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .reminder-card {
+    background: white; border-radius: 16px; padding: 18px;
+    border-left: 4px solid;
+    box-shadow: 0 2px 10px rgba(44,31,26,0.06);
+    transition: transform 0.2s;
+  }
+  .reminder-card:hover { transform: translateY(-2px); }
+  .reminder-card.pillow { border-color: var(--rose); }
+  .reminder-card.spf { border-color: var(--gold); }
+  .reminder-card.water { border-color: var(--water-blue); }
+  .reminder-card .r-icon { font-size: 1.4rem; margin-bottom: 8px; }
+  .reminder-card h4 { font-size: 0.88rem; font-weight: 600; margin-bottom: 4px; }
+  .reminder-card p { font-size: 0.78rem; color: var(--text-light); line-height: 1.5; }
+  .reminder-badge {
+    display: inline-block; margin-top: 8px;
+    padding: 3px 10px; border-radius: 50px;
+    font-size: 0.7rem; font-weight: 500;
+  }
+  .badge-due { background: #FFE5E5; color: #C0392B; }
+  .badge-ok { background: #E5F5E5; color: #2E7D32; }
+  .badge-soon { background: #FFF3E0; color: #E65100; }
+
+  /* ===== SCAN PAGE ===== */
+  .scan-page { max-width: 900px; margin: 0 auto; padding: 40px; }
+  .scan-header {
+    text-align: center; margin-bottom: 40px;
+  }
+  .scan-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem; font-weight: 300;
+    margin-bottom: 8px;
+  }
+  .scan-header p { color: var(--text-light); font-size: 0.9rem; }
+
+  .scan-upload-area {
+    border: 2px dashed var(--sand);
+    border-radius: 24px; padding: 50px 30px;
+    text-align: center; cursor: pointer;
+    transition: all 0.3s; background: white;
+    margin-bottom: 30px;
+  }
+  .scan-upload-area:hover, .scan-upload-area.dragover {
+    border-color: var(--rose); background: rgba(242,213,196,0.1);
+  }
+  .upload-icon { font-size: 3.5rem; margin-bottom: 14px; }
+  .scan-upload-area h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; margin-bottom: 8px;
+  }
+  .scan-upload-area p { color: var(--text-light); font-size: 0.85rem; margin-bottom: 16px; }
+  .upload-btn {
+    padding: 12px 28px;
+    background: var(--deep-rose); color: white;
+    border: none; border-radius: 50px; cursor: pointer;
+    font-size: 0.88rem; font-weight: 500;
+    transition: all 0.2s;
+  }
+  .upload-btn:hover { background: var(--rose); transform: translateY(-1px); }
+
+  .scan-preview {
+    display: none; position: relative;
+    border-radius: 20px; overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .scan-preview img {
+    width: 100%; max-height: 400px;
+    object-fit: cover; border-radius: 20px;
+  }
+  .scan-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(44,31,26,0.5));
+    border-radius: 20px;
+    display: flex; align-items: flex-end; padding: 20px;
+  }
+  .scan-analyze-btn {
+    width: 100%; padding: 14px;
+    background: var(--deep-rose); color: white;
+    border: none; border-radius: 14px; cursor: pointer;
+    font-size: 0.95rem; font-weight: 500; letter-spacing: 0.02em;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(168,90,66,0.4);
+  }
+  .scan-analyze-btn:hover { background: var(--rose); }
+
+  /* AI Analyzing animation */
+  .analyzing-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(250,246,240,0.95); z-index: 200;
+    align-items: center; justify-content: center;
+    flex-direction: column; gap: 20px;
+  }
+  .analyzing-overlay.show { display: flex; }
+  .analyzing-orb {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: conic-gradient(var(--rose), var(--sage), var(--gold), var(--rose));
+    animation: orbSpin 2s linear infinite;
+    filter: blur(2px);
+  }
+  @keyframes orbSpin { to { transform: rotate(360deg); } }
+  .analyzing-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 300;
+    color: var(--text-dark); text-align: center;
+  }
+  .analyzing-steps { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+  .step-item {
+    font-size: 0.82rem; color: var(--text-light);
+    display: flex; align-items: center; gap: 8px;
+    opacity: 0; animation: stepReveal 0.5s ease forwards;
+  }
+  .step-item::before { content: '✓'; color: var(--sage); font-weight: 700; }
+  @keyframes stepReveal { to { opacity: 1; } }
+
+  /* ===== LIFESTYLE PAGE ===== */
+  .lifestyle-page { max-width: 900px; margin: 0 auto; padding: 40px; }
+  .lifestyle-header { margin-bottom: 36px; }
+  .lifestyle-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 300;
+  }
+  .lifestyle-header p { color: var(--text-light); font-size: 0.88rem; margin-top: 6px; }
+
+  .lifestyle-tabs {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px;
+  }
+  .life-tab {
+    padding: 8px 18px; border-radius: 50px;
+    font-size: 0.82rem; cursor: pointer;
+    border: 1.5px solid var(--sand); background: white;
+    color: var(--text-mid); transition: all 0.2s;
+  }
+  .life-tab.active {
+    background: var(--deep-rose); color: white;
+    border-color: var(--deep-rose);
+  }
+
+  .lifestyle-form { display: none; }
+  .lifestyle-form.active { display: block; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1/-1; }
+  label { font-size: 0.8rem; font-weight: 500; color: var(--text-mid); }
+  input, select, textarea {
+    padding: 12px 16px; border-radius: 12px;
+    border: 1.5px solid rgba(201,184,154,0.5);
+    background: white; font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem; color: var(--text-dark);
+    transition: border-color 0.2s; outline: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--rose);
+  }
+  textarea { resize: vertical; min-height: 90px; }
+
+  .chip-selector { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 6px 14px; border-radius: 50px;
+    font-size: 0.78rem; cursor: pointer;
+    border: 1.5px solid rgba(201,184,154,0.5);
+    background: white; color: var(--text-mid);
+    transition: all 0.2s;
+  }
+  .chip.selected { background: var(--blush); border-color: var(--rose); color: var(--deep-rose); }
+
+  .save-btn {
+    margin-top: 24px; padding: 14px 36px;
+    background: var(--deep-rose); color: white;
+    border: none; border-radius: 50px; cursor: pointer;
+    font-size: 0.9rem; font-weight: 500;
+    transition: all 0.2s; box-shadow: 0 4px 16px rgba(168,90,66,0.3);
+  }
+  .save-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168,90,66,0.4); }
+
+  /* ===== REPORT PAGE ===== */
+  .report-page { max-width: 1000px; margin: 0 auto; padding: 40px; }
+  .report-header { margin-bottom: 36px; }
+  .report-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 300;
+  }
+
+  .report-toggle {
+    display: flex; background: rgba(201,184,154,0.2);
+    border-radius: 50px; padding: 5px; width: fit-content;
+    margin-bottom: 28px;
+  }
+  .rtoggle {
+    padding: 10px 24px; border-radius: 50px;
+    font-size: 0.84rem; cursor: pointer;
+    border: none; background: transparent; color: var(--text-mid);
+    transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+  }
+  .rtoggle.active { background: var(--deep-rose); color: white; }
+
+  /* Simplified Report */
+  .simplified-report { display: none; }
+  .simplified-report.active { display: block; }
+
+  .skin-score-card {
+    background: linear-gradient(135deg, var(--deep-rose), #C4785E);
+    border-radius: 24px; padding: 30px;
+    color: white; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 24px;
+  }
+  .score-circle {
+    width: 90px; height: 90px; flex-shrink: 0;
+    border-radius: 50%; border: 3px solid rgba(255,255,255,0.5);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.15);
+  }
+  .score-num { font-size: 2rem; font-weight: 700; line-height: 1; }
+  .score-label { font-size: 0.65rem; opacity: 0.8; }
+  .score-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 400; margin-bottom: 6px;
+  }
+  .score-info p { font-size: 0.85rem; opacity: 0.9; line-height: 1.5; }
+
+  .insight-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .insight-card {
+    background: white; border-radius: 18px; padding: 20px;
+    box-shadow: 0 2px 12px rgba(44,31,26,0.06);
+  }
+  .insight-card h4 {
+    font-size: 0.82rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-light); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .insight-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 10px; font-size: 0.85rem; line-height: 1.5;
+  }
+  .insight-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0; margin-top: 5px;
+  }
+  .dot-warn { background: #F4A261; }
+  .dot-good { background: var(--sage); }
+  .dot-bad { background: #E76F51; }
+
+  /* Nuskhe section */
+  .nuskhe-section {
+    background: linear-gradient(135deg, #FFF8F0, #FFF0E8);
+    border-radius: 20px; padding: 24px;
+    margin-bottom: 24px; border: 1px solid rgba(201,184,154,0.3);
+  }
+  .nuskhe-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; margin-bottom: 16px; color: var(--deep-rose);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nuskhe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .nuskhe-card {
+    background: white; border-radius: 14px; padding: 14px;
+    border-left: 3px solid var(--gold);
+  }
+  .nuskhe-card .n-icon { font-size: 1.3rem; margin-bottom: 6px; }
+  .nuskhe-card h5 { font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+  .nuskhe-card p { font-size: 0.78rem; color: var(--text-light); line-height: 1.5; }
+
+  /* Changes section */
+  .changes-section { margin-bottom: 24px; }
+  .changes-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; margin-bottom: 16px;
+  }
+  .change-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: white; border-radius: 14px; padding: 16px;
+    margin-bottom: 10px; box-shadow: 0 2px 8px rgba(44,31,26,0.05);
+  }
+  .change-arrow {
+    width: 32px; height: 32px; flex-shrink: 0;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+  }
+  .arrow-diet { background: #FFE8D6; }
+  .arrow-exercise { background: #E8F5E9; }
+  .arrow-sleep { background: #E8EAF6; }
+  .arrow-skin { background: #FCE4EC; }
+  .change-content h5 { font-size: 0.88rem; font-weight: 600; margin-bottom: 4px; }
+  .change-content p { font-size: 0.82rem; color: var(--text-light); line-height: 1.5; }
+
+  /* Dermat report */
+  .dermat-report { display: none; }
+  .dermat-report.active { display: block; }
+  .dermat-banner {
+    background: var(--text-dark); color: var(--cream);
+    border-radius: 16px; padding: 16px 22px;
+    margin-bottom: 20px; font-size: 0.82rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .dermat-section {
+    background: white; border-radius: 18px; padding: 22px;
+    margin-bottom: 16px; box-shadow: 0 2px 12px rgba(44,31,26,0.06);
+  }
+  .dermat-section h4 {
+    font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--text-light); margin-bottom: 14px;
+    border-bottom: 1px solid var(--blush); padding-bottom: 8px;
+  }
+  .data-row { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; margin-bottom: 10px; font-size: 0.85rem; }
+  .data-key { color: var(--text-light); }
+  .data-val { color: var(--text-dark); font-weight: 500; }
+
+  /* ===== TOAST / NOTIFICATION ===== */
+  .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 300; display: flex; flex-direction: column; gap: 10px; }
+  .toast {
+    background: var(--text-dark); color: white;
+    padding: 14px 20px; border-radius: 14px;
+    font-size: 0.85rem; max-width: 300px;
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 8px 24px rgba(44,31,26,0.25);
+    animation: toastIn 0.4s ease;
+    cursor: pointer;
+  }
+  .toast.water-toast { background: linear-gradient(135deg, var(--water-blue), #5A9AB8); }
+  .toast.pillow-toast { background: linear-gradient(135deg, var(--rose), var(--deep-rose)); }
+  .toast.spf-toast { background: linear-gradient(135deg, #F4A261, #E76F51); }
+  @keyframes toastIn {
+    from { transform: translateX(120%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  .toast-icon { font-size: 1.4rem; }
+
+  /* ===== EMPTY / PENDING STATE ===== */
+  .pending-state {
+    text-align: center; padding: 60px 30px;
+    color: var(--text-light);
+  }
+  .pending-state .p-icon { font-size: 4rem; margin-bottom: 16px; opacity: 0.4; }
+  .pending-state h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; margin-bottom: 8px;
+    color: var(--text-mid);
+  }
+  .pending-state p { font-size: 0.88rem; }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-bar {
+    height: 6px; background: rgba(201,184,154,0.3);
+    border-radius: 50px; overflow: hidden; margin-top: 8px;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 50px;
+    background: linear-gradient(90deg, var(--sage), var(--deep-sage));
+    transition: width 0.6s ease;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    nav { padding: 14px 20px; }
+    .nav-tabs { gap: 4px; }
+    .nav-tab { padding: 7px 12px; font-size: 0.75rem; }
+    .dashboard-hero { grid-template-columns: 1fr; padding: 20px; }
+    .quick-actions { grid-template-columns: 1fr 1fr; }
+    .reminders-grid { grid-template-columns: 1fr; }
+    .insight-cards { grid-template-columns: 1fr; }
+    .nuskhe-grid { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .scan-page, .lifestyle-page, .report-page { padding: 20px; }
+  }
+
+  /* Skincare routines chips */
+  .routine-time { font-size: 0.75rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; margin-top: 14px; }
+
+  /* ===== AUTH PAGES ===== */
+  .auth-overlay {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(250,246,240,0.97); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center;
+  }
+  .auth-overlay.show { display: flex; }
+
+  .auth-card {
+    background: white; border-radius: 28px; padding: 44px 40px;
+    max-width: 440px; width: 90%; box-shadow: 0 20px 60px rgba(44,31,26,0.12);
+    position: relative; animation: authSlideUp 0.4s cubic-bezier(0.34,1.2,0.64,1);
+  }
+  @keyframes authSlideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+  .auth-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 600; color: var(--deep-rose);
+    text-align: center; margin-bottom: 6px;
+  }
+  .auth-logo span { font-style: italic; color: var(--sage); }
+  .auth-tagline { text-align: center; font-size: 0.82rem; color: var(--text-light); margin-bottom: 28px; }
+
+  .auth-tabs {
+    display: flex; background: rgba(201,184,154,0.2);
+    border-radius: 50px; padding: 4px; margin-bottom: 28px;
+  }
+  .auth-tab {
+    flex: 1; text-align: center; padding: 9px; border-radius: 50px;
+    font-size: 0.84rem; font-weight: 500; cursor: pointer;
+    transition: all 0.25s; color: var(--text-mid); border: none; background: transparent;
+  }
+  .auth-tab.active { background: var(--deep-rose); color: white; box-shadow: 0 2px 10px rgba(168,90,66,0.3); }
+
+  .auth-form { display: none; }
+  .auth-form.active { display: block; }
+
+  .auth-field { margin-bottom: 16px; }
+  .auth-field label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--text-mid); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .auth-field input, .auth-field select {
+    width: 100%; padding: 12px 16px; border-radius: 12px;
+    border: 1.5px solid rgba(201,184,154,0.5); background: var(--warm-white);
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--text-dark);
+    transition: border-color 0.2s; outline: none;
+  }
+  .auth-field input:focus, .auth-field select:focus { border-color: var(--rose); }
+  .auth-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .auth-submit {
+    width: 100%; padding: 14px; border: none; border-radius: 50px;
+    background: linear-gradient(135deg, var(--deep-rose), #C4785E);
+    color: white; font-size: 0.92rem; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; box-shadow: 0 6px 20px rgba(168,90,66,0.3);
+    margin-top: 8px; letter-spacing: 0.02em;
+  }
+  .auth-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(168,90,66,0.4); }
+  .auth-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .auth-divider { text-align: center; font-size: 0.78rem; color: var(--text-light); margin: 16px 0 8px; }
+
+  .auth-error {
+    background: #FFE5E5; color: #C0392B; border-radius: 10px;
+    padding: 10px 14px; font-size: 0.82rem; margin-bottom: 14px; display: none;
+  }
+  .auth-error.show { display: block; }
+
+  .auth-close {
+    position: absolute; top: 16px; right: 18px;
+    font-size: 1.4rem; cursor: pointer; color: var(--text-light);
+    background: none; border: none; line-height: 1;
+  }
+  .auth-close:hover { color: var(--deep-rose); }
+
+  /* ===== NAV USER AREA ===== */
+  .nav-user {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-user-btn {
+    padding: 7px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; border: none;
+  }
+  .nav-login-btn { background: rgba(168,90,66,0.1); color: var(--deep-rose); }
+  .nav-login-btn:hover { background: rgba(168,90,66,0.18); }
+  .nav-signup-btn { background: var(--deep-rose); color: white; box-shadow: 0 2px 10px rgba(168,90,66,0.25); }
+  .nav-signup-btn:hover { background: #9a4f3a; }
+  .nav-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blush), var(--rose));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 700; color: white; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(168,90,66,0.25);
+  }
+  .nav-username { font-size: 0.82rem; font-weight: 500; color: var(--text-mid); }
+  .nav-logout-btn { padding: 6px 12px; border-radius: 50px; font-size: 0.76rem; font-weight: 500; cursor: pointer; background: rgba(44,31,26,0.07); color: var(--text-mid); border: none; }
+  .nav-logout-btn:hover { background: rgba(168,90,66,0.1); color: var(--deep-rose); }
+
+  /* ===== AUTH GATE — blocks pages if not logged in ===== */
+  .auth-gate {
+    display: none; padding: 80px 40px; text-align: center; max-width: 500px; margin: 0 auto;
+  }
+  .auth-gate.show { display: block; }
+  .auth-gate .gate-icon { font-size: 3.5rem; margin-bottom: 20px; opacity: 0.5; }
+  .auth-gate h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; margin-bottom: 10px; color: var(--text-dark); }
+  .auth-gate p { font-size: 0.88rem; color: var(--text-light); margin-bottom: 28px; line-height: 1.6; }
+  .auth-gate-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .gate-btn-primary { padding: 12px 28px; border-radius: 50px; background: var(--deep-rose); color: white; border: none; cursor: pointer; font-size: 0.88rem; font-weight: 500; }
+  .gate-btn-secondary { padding: 12px 28px; border-radius: 50px; background: transparent; color: var(--deep-rose); border: 1.5px solid var(--rose); cursor: pointer; font-size: 0.88rem; font-weight: 500; }
+
+  /* Dashboard logged-out state */
+  .welcome-banner {
+    background: linear-gradient(135deg, var(--blush), rgba(242,213,196,0.5));
+    border-radius: 20px; padding: 28px 30px; margin-bottom: 24px;
+    border: 1px solid rgba(212,131,106,0.2);
+  }
+  .welcome-banner h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: var(--deep-rose); margin-bottom: 8px; }
+  .welcome-banner p { font-size: 0.88rem; color: var(--text-mid); margin-bottom: 20px; line-height: 1.6; }
+  .welcome-banner-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-logo">Skin<span>Soul</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('dashboard')">🏠 Home</button>
+    <button class="nav-tab" onclick="guardedPage('scan')">📸 Scan</button>
+    <button class="nav-tab" onclick="guardedPage('lifestyle')">✨ Lifestyle</button>
+    <button class="nav-tab" onclick="guardedPage('report')">📋 Report</button>
+  </div>
+  <!-- Auth area — switches between logged-out buttons and user avatar -->
+  <div class="nav-user" id="navUser">
+    <button class="nav-user-btn nav-login-btn" onclick="openAuth('login')">Sign In</button>
+    <button class="nav-user-btn nav-signup-btn" onclick="openAuth('signup')">Sign Up</button>
+  </div>
+</nav>
+
+<!-- ==================== DASHBOARD ==================== -->
+<div id="page-dashboard" class="page active">
+  <div class="dashboard-hero">
+    <div class="greeting-section">
+
+      <!-- Welcome banner — shown only to logged-out users -->
+      <div class="welcome-banner" id="welcomeBanner">
+        <h2>Welcome to SkinSoul 🌸</h2>
+        <p>Your AI-powered skin health companion. Get a personalised skin scan, track hydration with your pet Dewdrop, log your lifestyle, and receive a dermatologist-ready report — all in one place.</p>
+        <div class="welcome-banner-btns">
+          <button class="gate-btn-primary" onclick="openAuth('signup')" style="padding:12px 24px;font-size:0.9rem">Create Free Account</button>
+          <button class="gate-btn-secondary" onclick="openAuth('login')" style="padding:12px 24px;font-size:0.9rem">Sign In</button>
+        </div>
+      </div>
+
+      <h1>Good morning,<br><em id="userName">Priya</em> ✨</h1>
+      <p class="greeting-sub" id="todayDate">Your skin is waiting to be understood.</p>
+
+      <!-- UV Banner -->
+      <div class="uv-banner" onclick="showUVDetail()">
+        <div class="uv-icon">☀️</div>
+        <div class="uv-info">
+          <h3>Today's UV Index · <span id="uvCity">Delhi</span></h3>
+          <p id="uvValue">UV 8 — Very High</p>
+          <small id="uvAdvice">Apply SPF 50+ before stepping out. Reapply every 2 hours.</small>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <div class="action-card" onclick="showPage('scan')">
+          <div class="card-icon">📸</div>
+          <h4>Scan My Skin</h4>
+          <p>Upload a photo for AI analysis</p>
+        </div>
+        <div class="action-card" onclick="showPage('lifestyle')">
+          <div class="card-icon">🌿</div>
+          <h4>Log Lifestyle</h4>
+          <p>Update your daily habits</p>
+        </div>
+        <div class="action-card" onclick="showPage('report')">
+          <div class="card-icon">📋</div>
+          <h4>View Report</h4>
+          <p>See your AI skin analysis</p>
+        </div>
+        <div class="action-card" onclick="logWater()">
+          <div class="card-icon">💧</div>
+          <h4>Log Water</h4>
+          <p id="waterStatusCard">5 / 8 glasses today</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pet + Water Widget -->
+    <div class="pet-water-widget">
+      <div class="pet-widget-title">Meet Dewdrop 🌱</div>
+      <div class="pet-date" id="petDate">Your daily companion</div>
+
+      <div class="pet-container">
+        <div class="pet-glow"></div>
+        <svg class="pet-svg pet-bounce" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <ellipse cx="70" cy="82" rx="38" ry="34" fill="#B8E6C1"/>
+          <!-- Face bg -->
+          <ellipse cx="70" cy="72" rx="30" ry="28" fill="#D4F0DA"/>
+          <!-- Eyes -->
+          <ellipse cx="60" cy="68" rx="5" ry="6" fill="#4A7A5C"/>
+          <ellipse cx="80" cy="68" rx="5" ry="6" fill="#4A7A5C"/>
+          <!-- Eye shine -->
+          <circle cx="62" cy="66" r="2" fill="white"/>
+          <circle cx="82" cy="66" r="2" fill="white"/>
+          <!-- Smile -->
+          <path d="M60 80 Q70 88 80 80" stroke="#4A7A5C" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <!-- Cheeks -->
+          <ellipse cx="52" cy="75" rx="7" ry="5" fill="rgba(242,143,120,0.35)"/>
+          <ellipse cx="88" cy="75" rx="7" ry="5" fill="rgba(242,143,120,0.35)"/>
+          <!-- Leaf on head -->
+          <path d="M70 44 Q75 32 85 34 Q78 44 70 44Z" fill="#8BAF8D"/>
+          <path d="M70 44 Q65 32 55 34 Q62 44 70 44Z" fill="#6A9870"/>
+          <!-- Water drops on body -->
+          <g id="petDrops" opacity="0.7">
+            <path d="M55 92 Q55 86 60 88 Q60 94 55 92Z" fill="#7BB8D4" class="pet-drop" style="display:none"/>
+            <path d="M68 96 Q68 90 73 92 Q73 98 68 96Z" fill="#7BB8D4" class="pet-drop" style="display:none"/>
+            <path d="M80 91 Q80 85 85 87 Q85 93 80 91Z" fill="#7BB8D4" class="pet-drop" style="display:none"/>
+          </g>
+          <!-- Tiny stars sparkle -->
+          <text x="38" y="55" font-size="10" opacity="0.6">✦</text>
+          <text x="95" y="50" font-size="8" opacity="0.5">✦</text>
+          <text x="105" y="65" font-size="6" opacity="0.4">✦</text>
+        </svg>
+      </div>
+
+      <div class="water-label">💧 Hydration Journey</div>
+      <div class="water-drops" id="waterDrops"></div>
+      <div class="water-count" id="waterCount">5 of 8 glasses · Keep going!</div>
+      <div class="progress-bar" style="width:100%; margin: 8px 0;">
+        <div class="progress-fill" id="waterProgressFill" style="width:62.5%"></div>
+      </div>
+      <button class="water-btn" onclick="logWater()">+ Log a Glass 💧</button>
+    </div>
+  </div>
+
+  <!-- Reminders -->
+  <div class="reminders-section">
+    <div class="section-title">Today's Reminders</div>
+    <div class="reminders-grid">
+      <div class="reminder-card pillow">
+        <div class="r-icon">🛏️</div>
+        <h4>Pillowcase Change</h4>
+        <p>Change your pillowcase every 2–3 days. Bacteria buildup can cause breakouts overnight.</p>
+        <span class="reminder-badge badge-due" id="pillowBadge">Due Today</span>
+      </div>
+      <div class="reminder-card spf">
+        <div class="r-icon">🧴</div>
+        <h4>SPF Reapplication</h4>
+        <p>UV 8 today in Delhi. Reapply your sunscreen! Protect those cheeks and nose bridge.</p>
+        <span class="reminder-badge badge-soon" id="spfBadge">Reapply in 1h</span>
+      </div>
+      <div class="reminder-card water">
+        <div class="r-icon">💧</div>
+        <h4>Water Reminder</h4>
+        <p>Next glass in 45 minutes. Hydration directly affects your skin's barrier function.</p>
+        <span class="reminder-badge badge-ok" id="waterBadge">On Track</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SCAN PAGE ==================== -->
+<div id="page-scan" class="page">
+
+      <!-- Auth gate shown to logged-out users -->
+      <div class="auth-gate" id="gate-scan">
+        <div class="gate-icon">📸</div>
+        <h2>Scan Your Skin</h2>
+        <p>Create a free account to upload your photo and get a personalised AI skin analysis — including pore mapping, hydration levels, pigmentation check, and a full dermatologist-ready report.</p>
+        <div class="auth-gate-btns">
+          <button class="gate-btn-primary" onclick="openAuth('signup')">Create Free Account</button>
+          <button class="gate-btn-secondary" onclick="openAuth('login')">Sign In</button>
+        </div>
+      </div>
+  <div id="content-scan" style="display:none"><div class="scan-page">
+    <div class="scan-header">
+      <h2>📸 Skin Scan</h2>
+      <p>Upload a clear, well-lit photo of your skin for AI analysis. Front-facing in natural light works best.</p>
+    </div>
+
+    <div class="scan-upload-area" id="uploadArea" onclick="document.getElementById('skinPhoto').click()"
+         ondragover="event.preventDefault(); this.classList.add('dragover')"
+         ondragleave="this.classList.remove('dragover')"
+         ondrop="handleDrop(event)">
+      <div class="upload-icon">🤳</div>
+      <h3>Upload your skin photo</h3>
+      <p>JPEG, PNG · Clear lighting · No filters please</p>
+      <button class="upload-btn" onclick="event.stopPropagation()">Choose Photo</button>
+      <input type="file" id="skinPhoto" accept="image/*" style="display:none" onchange="handlePhotoUpload(event)">
+    </div>
+
+    <div class="scan-preview" id="scanPreview">
+      <img id="previewImg" src="" alt="Skin scan preview">
+      <div class="scan-overlay">
+        <button class="scan-analyze-btn" onclick="runAIAnalysis()">🔬 Analyze My Skin with AI</button>
+      </div>
+    </div>
+
+    <div style="background:white; border-radius:20px; padding:24px; box-shadow:0 2px 12px rgba(44,31,26,0.06);">
+      <div class="section-title" style="font-size:1.1rem; margin-bottom:16px;">📋 What we analyze</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div class="insight-item"><div class="insight-dot dot-good"></div>Skin type identification (oily/dry/combination)</div>
+        <div class="insight-item"><div class="insight-dot dot-good"></div>Pore size & visibility</div>
+        <div class="insight-item"><div class="insight-dot dot-good"></div>Hyperpigmentation & dark spots</div>
+        <div class="insight-item"><div class="insight-dot dot-good"></div>Acne & breakout zones</div>
+        <div class="insight-item"><div class="insight-dot dot-good"></div>Hydration levels & fine lines</div>
+        <div class="insight-item"><div class="insight-dot dot-good"></div>Sun damage assessment</div>
+        <div class="insight-item"><div class="insight-dot dot-good"></div>Texture uniformity</div>
+        <div class="insight-item"><div class="insight-dot dot-good"></div>Sensitivity indicators</div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div><!-- /content-scan -->
+
+<!-- ==================== LIFESTYLE PAGE ==================== -->
+<div id="page-lifestyle" class="page">
+
+      <!-- Auth gate shown to logged-out users -->
+      <div class="auth-gate" id="gate-lifestyle">
+        <div class="gate-icon">✨</div>
+        <h2>Your Lifestyle Profile</h2>
+        <p>Sign in to save your diet, exercise, sleep, medical history, and skincare routine. The more we know, the more accurate your AI skin analysis becomes.</p>
+        <div class="auth-gate-btns">
+          <button class="gate-btn-primary" onclick="openAuth('signup')">Create Free Account</button>
+          <button class="gate-btn-secondary" onclick="openAuth('login')">Sign In</button>
+        </div>
+      </div>
+  <div id="content-lifestyle" style="display:none"><div class="lifestyle-page">
+    <div class="lifestyle-header">
+      <h2>🌿 Your Lifestyle Profile</h2>
+      <p>The more honestly you fill this in, the better your skin analysis will be. Everything matters.</p>
+    </div>
+
+    <div class="lifestyle-tabs">
+      <button class="life-tab active" onclick="showLifeTab('diet')">🥗 Diet</button>
+      <button class="life-tab" onclick="showLifeTab('exercise')">🏃 Exercise</button>
+      <button class="life-tab" onclick="showLifeTab('water')">💧 Water</button>
+      <button class="life-tab" onclick="showLifeTab('sleep')">🌙 Sleep</button>
+      <button class="life-tab" onclick="showLifeTab('medical')">🩺 Medical</button>
+      <button class="life-tab" onclick="showLifeTab('skincare')">✨ Skincare</button>
+    </div>
+
+    <!-- DIET -->
+    <div class="lifestyle-form active" id="form-diet">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Primary Diet Type</label>
+          <select>
+            <option>Vegetarian</option><option>Vegan</option>
+            <option>Non-vegetarian</option><option>Eggetarian</option>
+            <option>Jain</option><option>Keto</option><option>Mediterranean</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Meals per day</label>
+          <select>
+            <option>2 meals</option><option>3 meals</option>
+            <option>4+ meals</option><option>Intermittent fasting</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Favourite Foods / What you eat most</label>
+          <textarea placeholder="e.g. Dal chawal, street food on weekends, lots of chai, occasional paneer..."></textarea>
+        </div>
+        <div class="form-group full">
+          <label>Foods you regularly avoid or are allergic to</label>
+          <input type="text" placeholder="e.g. dairy, gluten, peanuts, eggs...">
+        </div>
+        <div class="form-group">
+          <label>Dairy consumption</label>
+          <select>
+            <option>Daily (milk, curd, paneer)</option>
+            <option>Occasionally</option><option>Rarely</option><option>Never</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Sugar intake</label>
+          <select>
+            <option>High (sweets, chai, cold drinks daily)</option>
+            <option>Moderate</option><option>Low</option><option>Minimal</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Select your dietary habits</label>
+          <div class="chip-selector">
+            <span class="chip" onclick="toggleChip(this)">🌶 Spicy food lover</span>
+            <span class="chip" onclick="toggleChip(this)">🫖 Multiple chais daily</span>
+            <span class="chip" onclick="toggleChip(this)">🥛 Milk at night</span>
+            <span class="chip" onclick="toggleChip(this)">🍟 Oily/fried food often</span>
+            <span class="chip" onclick="toggleChip(this)">🥬 Lots of vegetables</span>
+            <span class="chip" onclick="toggleChip(this)">🍎 Fruits daily</span>
+            <span class="chip" onclick="toggleChip(this)">🥜 Nuts & seeds</span>
+            <span class="chip" onclick="toggleChip(this)">🫙 Fermented foods</span>
+          </div>
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveSection('diet')">Save Diet Profile ✓</button>
+    </div>
+
+    <!-- EXERCISE -->
+    <div class="lifestyle-form" id="form-exercise">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Exercise frequency</label>
+          <select>
+            <option>Daily</option><option>5-6 days/week</option>
+            <option>3-4 days/week</option><option>1-2 days/week</option>
+            <option>Rarely</option><option>Not at all</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Duration per session</label>
+          <select>
+            <option>Less than 20 min</option><option>20-40 min</option>
+            <option>40-60 min</option><option>1-2 hours</option><option>2+ hours</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Type of exercise (select all that apply)</label>
+          <div class="chip-selector">
+            <span class="chip" onclick="toggleChip(this)">🏃 Running / Walking</span>
+            <span class="chip" onclick="toggleChip(this)">💪 Weight training</span>
+            <span class="chip" onclick="toggleChip(this)">🧘 Yoga</span>
+            <span class="chip" onclick="toggleChip(this)">🏊 Swimming</span>
+            <span class="chip" onclick="toggleChip(this)">🚴 Cycling</span>
+            <span class="chip" onclick="toggleChip(this)">🤸 HIIT</span>
+            <span class="chip" onclick="toggleChip(this)">💃 Dance / Zumba</span>
+            <span class="chip" onclick="toggleChip(this)">🥊 Sports</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Do you sweat heavily during exercise?</label>
+          <select>
+            <option>Yes, a lot</option><option>Moderate</option><option>Minimal</option></select>
+        </div>
+        <div class="form-group">
+          <label>When do you cleanse after workouts?</label>
+          <select>
+            <option>Immediately</option><option>Within 30 min</option>
+            <option>1+ hours later</option><option>I don't cleanse after</option>
+          </select>
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveSection('exercise')">Save Exercise Profile ✓</button>
+    </div>
+
+    <!-- WATER -->
+    <div class="lifestyle-form" id="form-water">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Average water intake (glasses/day)</label>
+          <input type="number" min="0" max="20" placeholder="e.g. 6" id="waterGoalInput">
+        </div>
+        <div class="form-group">
+          <label>Primary drinks besides water</label>
+          <div class="chip-selector" style="margin-top:4px">
+            <span class="chip" onclick="toggleChip(this)">☕ Chai/Coffee</span>
+            <span class="chip" onclick="toggleChip(this)">🥤 Cold drinks</span>
+            <span class="chip" onclick="toggleChip(this)">🧃 Juices</span>
+            <span class="chip" onclick="toggleChip(this)">🫖 Herbal teas</span>
+            <span class="chip" onclick="toggleChip(this)">🥛 Milk</span>
+            <span class="chip" onclick="toggleChip(this)">🍺 Alcohol</span>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label>Water reminder goal (glasses per day)</label>
+          <input type="range" min="4" max="12" value="8" id="reminderGoal"
+            oninput="document.getElementById('goalDisplay').textContent = this.value + ' glasses'">
+          <div style="font-size:0.85rem; color:var(--rose); margin-top:4px;" id="goalDisplay">8 glasses</div>
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveSection('water')">Save Water Profile ✓</button>
+    </div>
+
+    <!-- SLEEP -->
+    <div class="lifestyle-form" id="form-sleep">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Average sleep duration</label>
+          <select>
+            <option>Less than 5 hours</option><option>5-6 hours</option>
+            <option>6-7 hours</option><option>7-8 hours</option><option>8+ hours</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Sleep quality</label>
+          <select>
+            <option>Excellent (deep sleep)</option><option>Good</option>
+            <option>Fair (some disturbances)</option>
+            <option>Poor (frequent waking)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Sleep schedule</label>
+          <select>
+            <option>Before 10pm</option><option>10pm - 12am</option>
+            <option>12am - 2am</option><option>After 2am</option><option>Irregular</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Pillowcase material</label>
+          <select>
+            <option>Cotton</option><option>Silk / Satin</option>
+            <option>Polyester / Synthetic</option><option>Don't know</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>How often do you change your pillowcase?</label>
+          <select>
+            <option>Every 2-3 days</option><option>Once a week</option>
+            <option>Every 2 weeks</option><option>Monthly</option><option>Rarely</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Sleep habits</label>
+          <div class="chip-selector">
+            <span class="chip" onclick="toggleChip(this)">📱 Screen before bed</span>
+            <span class="chip" onclick="toggleChip(this)">😴 Sleep on stomach</span>
+            <span class="chip" onclick="toggleChip(this)">💤 Sleep on side</span>
+            <span class="chip" onclick="toggleChip(this)">🌙 AC all night</span>
+            <span class="chip" onclick="toggleChip(this)">🙃 Don't remove makeup</span>
+            <span class="chip" onclick="toggleChip(this)">✅ Night skincare routine</span>
+          </div>
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveSection('sleep')">Save Sleep Profile ✓</button>
+    </div>
+
+    <!-- MEDICAL -->
+    <div class="lifestyle-form" id="form-medical">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Existing skin conditions (if any)</label>
+          <div class="chip-selector">
+            <span class="chip" onclick="toggleChip(this)">Acne / Pimples</span>
+            <span class="chip" onclick="toggleChip(this)">Eczema</span>
+            <span class="chip" onclick="toggleChip(this)">Psoriasis</span>
+            <span class="chip" onclick="toggleChip(this)">Rosacea</span>
+            <span class="chip" onclick="toggleChip(this)">Melasma</span>
+            <span class="chip" onclick="toggleChip(this)">Hyperpigmentation</span>
+            <span class="chip" onclick="toggleChip(this)">Sensitive skin</span>
+            <span class="chip" onclick="toggleChip(this)">None</span>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label>Current medications (especially relevant ones)</label>
+          <textarea placeholder="e.g. OCP / birth control pills, antibiotics, retinoids, metformin, thyroid meds... These greatly affect skin"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Hormonal issues</label>
+          <div class="chip-selector">
+            <span class="chip" onclick="toggleChip(this)">PCOS</span>
+            <span class="chip" onclick="toggleChip(this)">Thyroid</span>
+            <span class="chip" onclick="toggleChip(this)">Insulin resistance</span>
+            <span class="chip" onclick="toggleChip(this)">None</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Stress level (honestly)</label>
+          <select>
+            <option>Low — I'm pretty chill</option>
+            <option>Moderate — work/life balance</option>
+            <option>High — quite stressed often</option>
+            <option>Very high — constantly stressed</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Family history of skin concerns</label>
+          <input type="text" placeholder="e.g. Mom has eczema, dad has oily skin, cousin has PCOS-related acne...">
+        </div>
+        <div class="form-group full">
+          <label>Known allergies (food, environmental, product)</label>
+          <textarea placeholder="e.g. pollen allergy, dust mite sensitivity, fragrance in skincare causes redness..."></textarea>
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveSection('medical')">Save Medical Profile ✓</button>
+    </div>
+
+    <!-- SKINCARE -->
+    <div class="lifestyle-form" id="form-skincare">
+      <div class="routine-time">☀️ Morning Routine</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Morning steps (select all you do)</label>
+          <div class="chip-selector">
+            <span class="chip" onclick="toggleChip(this)">Cleanse with water</span>
+            <span class="chip" onclick="toggleChip(this)">Face wash</span>
+            <span class="chip" onclick="toggleChip(this)">Toner</span>
+            <span class="chip" onclick="toggleChip(this)">Serum (Vit C etc)</span>
+            <span class="chip" onclick="toggleChip(this)">Moisturizer</span>
+            <span class="chip" onclick="toggleChip(this)">SPF / Sunscreen</span>
+            <span class="chip" onclick="toggleChip(this)">Under-eye cream</span>
+            <span class="chip" onclick="toggleChip(this)">Lip balm</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Sunscreen SPF used</label>
+          <select>
+            <option>None</option><option>SPF 15</option><option>SPF 30</option>
+            <option>SPF 50</option><option>SPF 50+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Reapply sunscreen during day?</label>
+          <select>
+            <option>Yes, every 2 hours</option><option>Sometimes</option><option>Rarely</option><option>Never</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="routine-time">🌙 Night Routine</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Night steps</label>
+          <div class="chip-selector">
+            <span class="chip" onclick="toggleChip(this)">Double cleanse</span>
+            <span class="chip" onclick="toggleChip(this)">Micellar water</span>
+            <span class="chip" onclick="toggleChip(this)">Retinol / Retinoid</span>
+            <span class="chip" onclick="toggleChip(this)">AHA/BHA exfoliant</span>
+            <span class="chip" onclick="toggleChip(this)">Night cream</span>
+            <span class="chip" onclick="toggleChip(this)">Face oil</span>
+            <span class="chip" onclick="toggleChip(this)">Eye cream</span>
+            <span class="chip" onclick="toggleChip(this)">Lip mask</span>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label>Ghar ke nuskhe / home remedies you use</label>
+          <textarea placeholder="e.g. haldi-chandan paste on spots, besan ubtan weekly, rose water toner, multani mitti mask, coconut oil for hair/face, aloe vera gel..."></textarea>
+        </div>
+        <div class="form-group full">
+          <label>Current products you swear by (or want to swap)</label>
+          <textarea placeholder="e.g. Minimalist 2% SA toner, Mamaearth sunscreen, Lakme moisturizer..."></textarea>
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveSection('skincare')">Save Skincare Profile ✓</button>
+    </div>
+  </div>
+</div>
+  </div><!-- /content-lifestyle -->
+
+<!-- ==================== REPORT PAGE ==================== -->
+<div id="page-report" class="page">
+
+      <!-- Auth gate shown to logged-out users -->
+      <div class="auth-gate" id="gate-report">
+        <div class="gate-icon">📋</div>
+        <h2>Your Skin Report</h2>
+        <p>Sign in and complete a skin scan to unlock your personalised AI report — including a simplified summary for you and a clinical summary to share with your dermatologist.</p>
+        <div class="auth-gate-btns">
+          <button class="gate-btn-primary" onclick="openAuth('signup')">Create Free Account</button>
+          <button class="gate-btn-secondary" onclick="openAuth('login')">Sign In</button>
+        </div>
+      </div>
+  <div id="content-report" style="display:none"><div class="report-page">
+    <div class="report-header">
+      <h2>📋 Your Skin Analysis Report</h2>
+    </div>
+
+    <div class="report-toggle" id="reportToggle">
+      <button class="rtoggle active" onclick="showReport('simplified')">🌸 Your Summary</button>
+      <button class="rtoggle" onclick="showReport('dermat')">🩺 For Your Dermatologist</button>
+    </div>
+
+    <!-- SIMPLIFIED REPORT -->
+    <div class="simplified-report active" id="simplified-report">
+      <div class="skin-score-card">
+        <div class="score-circle">
+          <div class="score-num">72</div>
+          <div class="score-label">/ 100</div>
+        </div>
+        <div class="score-info">
+          <h3>Skin Health Score: Good</h3>
+          <p>Your skin is doing well but has some areas needing attention — especially around hydration, sun protection, and diet-related inflammation. Small changes can make a big difference.</p>
+        </div>
+      </div>
+
+      <!-- What we noticed -->
+      <div class="insight-cards">
+        <div class="insight-card">
+          <h4>⚠️ Concerns Found</h4>
+          <div class="insight-item"><div class="insight-dot dot-bad"></div>Mild congestion in T-zone — likely tied to high dairy + spicy diet</div>
+          <div class="insight-item"><div class="insight-dot dot-bad"></div>Early signs of dehydration — drink more water before 12pm</div>
+          <div class="insight-item"><div class="insight-dot dot-warn"></div>Slight hyperpigmentation on cheeks — sun exposure + hormones</div>
+          <div class="insight-item"><div class="insight-dot dot-warn"></div>Pores appear enlarged — late cleansing after workouts detected</div>
+        </div>
+        <div class="insight-card">
+          <h4>✅ What's Working</h4>
+          <div class="insight-item"><div class="insight-dot dot-good"></div>Good skin elasticity — your age-appropriate care is showing</div>
+          <div class="insight-item"><div class="insight-dot dot-good"></div>Consistent night routine is helping skin recover</div>
+          <div class="insight-item"><div class="insight-dot dot-good"></div>No severe inflammation detected — stress levels manageable</div>
+          <div class="insight-item"><div class="insight-dot dot-good"></div>Adequate sleep contributing to healthy barrier function</div>
+        </div>
+      </div>
+
+      <!-- Ghar ke nuskhe -->
+      <div class="nuskhe-section">
+        <h3>🫙 Ghar ke Nuskhe — For Your Skin Type</h3>
+        <div class="nuskhe-grid">
+          <div class="nuskhe-card">
+            <div class="n-icon">💛</div>
+            <h5>Haldi + Curd Face Pack</h5>
+            <p>Mix ¼ tsp haldi with 1 tbsp thick dahi. Apply for 15 min. Fights bacteria, brightens spots, soothes redness. Use twice a week.</p>
+          </div>
+          <div class="nuskhe-card">
+            <div class="n-icon">🌹</div>
+            <h5>Gulab Jal Toner</h5>
+            <p>Pure rose water as toner after cleansing. Balances pH, hydrates, and smells divine. Store in fridge for extra cooling effect.</p>
+          </div>
+          <div class="nuskhe-card">
+            <div class="n-icon">🟤</div>
+            <h5>Multani Mitti Mask</h5>
+            <p>Mix with rose water only (not plain water). For oily T-zone, once a week. Draws out excess sebum without over-stripping.</p>
+          </div>
+          <div class="nuskhe-card">
+            <div class="n-icon">🥒</div>
+            <h5>Kheere ka Ras (Cucumber)</h5>
+            <p>Slice fresh cucumber, refrigerate, press on cheeks and dark spots for 10 min. Natural lightening + intense cooling.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suggested changes -->
+      <div class="changes-section">
+        <h3>🔄 Gentle Changes We Suggest</h3>
+
+        <div class="change-item">
+          <div class="change-arrow arrow-diet">🥗</div>
+          <div class="change-content">
+            <h5>Reduce dairy + processed sugar for 3 weeks</h5>
+            <p>Your T-zone congestion pattern matches high-dairy diet indicators. Try switching to oat milk chai for 3 weeks and watch your cheek texture improve noticeably. Add sabza seeds (basil seeds) to your water for skin hydration.</p>
+          </div>
+        </div>
+        <div class="change-item">
+          <div class="change-arrow arrow-exercise">🏃</div>
+          <div class="change-content">
+            <h5>Cleanse within 20 minutes post-workout</h5>
+            <p>Sweat + sebum sitting on skin for 1+ hours is a primary cause of your enlarged pores. A gentle micellar wipe right after works if a full wash isn't possible.</p>
+          </div>
+        </div>
+        <div class="change-item">
+          <div class="change-arrow arrow-sleep">🛏️</div>
+          <div class="change-content">
+            <h5>Switch to a silk or satin pillowcase</h5>
+            <p>Cotton creates friction that aggravates skin texture. Silk keeps serums on your face instead of absorbing them. Change to silk and see difference in cheek lines within 2-3 weeks.</p>
+          </div>
+        </div>
+        <div class="change-item">
+          <div class="change-arrow arrow-skin">✨</div>
+          <div class="change-content">
+            <h5>Add Niacinamide 10% to your routine</h5>
+            <p>For your specific pattern of enlarged pores + mild pigmentation + oily T-zone, Niacinamide is the one ingredient doing triple duty. Apply after toner, before moisturizer, in the morning.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dermat CTA -->
+      <div style="background: linear-gradient(135deg, #EEF2FF, #E0E7FF); border-radius:20px; padding:24px; text-align:center;">
+        <div style="font-size:1.8rem; margin-bottom:10px;">👩‍⚕️</div>
+        <h3 style="font-family:'Cormorant Garamond',serif; font-size:1.3rem; margin-bottom:8px; color:#3730A3;">Ready to see a Dermatologist?</h3>
+        <p style="font-size:0.85rem; color:#4338CA; margin-bottom:16px;">Your detailed AI report has been prepared. Share the "For Dermatologist" tab with your doctor at your next visit — they'll love the comprehensive data.</p>
+        <button class="save-btn" style="background:#4338CA;" onclick="showReport('dermat'); document.querySelector('.rtoggle:last-child').classList.add('active'); document.querySelector('.rtoggle:first-child').classList.remove('active');">
+          View Dermatologist Report →
+        </button>
+      </div>
+    </div>
+
+    <!-- DERMAT REPORT -->
+    <div class="dermat-report" id="dermat-report">
+      <div class="dermat-banner">
+        🩺 <strong>Clinical Summary for Dermatologist Review</strong> &nbsp;·&nbsp; Generated by SkinSoul AI &nbsp;·&nbsp; <span id="reportDate"></span>
+      </div>
+
+      <div class="dermat-section">
+        <h4>Patient Lifestyle Summary</h4>
+        <div class="data-row"><div class="data-key">Diet type</div><div class="data-val">Vegetarian, high dairy, high sugar (3+ chais daily, frequent sweets)</div></div>
+        <div class="data-row"><div class="data-key">Spice intake</div><div class="data-val">High — spicy food 5+ days/week</div></div>
+        <div class="data-row"><div class="data-key">Water intake</div><div class="data-val">~5-6 glasses/day (below optimal)</div></div>
+        <div class="data-row"><div class="data-key">Exercise</div><div class="data-val">4x/week, 45 min, mixed cardio + weights. Post-workout cleansing delayed >1 hour</div></div>
+        <div class="data-row"><div class="data-key">Sleep</div><div class="data-val">6-7 hours, 12am-7am schedule. Cotton pillowcase, changed weekly.</div></div>
+        <div class="data-row"><div class="data-key">Stress level</div><div class="data-val">Moderate-high (self-reported)</div></div>
+      </div>
+
+      <div class="dermat-section">
+        <h4>Observed Skin Conditions (AI Visual Analysis)</h4>
+        <div class="data-row"><div class="data-key">Skin type</div><div class="data-val">Combination — oily T-zone, normal-dry cheeks</div></div>
+        <div class="data-row"><div class="data-key">Acne</div><div class="data-val">Grade I-II comedonal acne. Primarily forehead and chin. No cystic lesions detected.</div></div>
+        <div class="data-row"><div class="data-key">Hyperpigmentation</div><div class="data-val">Mild post-inflammatory hyperpigmentation bilateral cheeks. Possible melasma pattern — recommend Wood's lamp examination.</div></div>
+        <div class="data-row"><div class="data-key">Pores</div><div class="data-val">Visibly enlarged, predominantly nasal + cheek region. Correlates with high sebum production.</div></div>
+        <div class="data-row"><div class="data-key">Texture</div><div class="data-val">Mild uneven texture, likely exacerbated by irregular exfoliation and delayed post-exercise cleansing.</div></div>
+        <div class="data-row"><div class="data-key">Hydration</div><div class="data-val">Visual dehydration markers present — fine surface lines, slight dullness. Not structural.</div></div>
+        <div class="data-row"><div class="data-key">Barrier function</div><div class="data-val">Mildly compromised — possibly from over-cleansing or incorrect product layering</div></div>
+      </div>
+
+      <div class="dermat-section">
+        <h4>Medical History (Patient Reported)</h4>
+        <div class="data-row"><div class="data-key">Known conditions</div><div class="data-val">PCOS (self-reported, under management)</div></div>
+        <div class="data-row"><div class="data-key">Current medications</div><div class="data-val">Metformin 500mg OD, Vitamin D3 supplement</div></div>
+        <div class="data-row"><div class="data-key">Hormonal status</div><div class="data-val">Irregular cycles — PCOS-related. Androgen excess possible.</div></div>
+        <div class="data-row"><div class="data-key">Family history</div><div class="data-val">Mother — eczema. Father — oily skin, acne in youth.</div></div>
+        <div class="data-row"><div class="data-key">Allergies</div><div class="data-val">Fragrance sensitivity (redness from scented products)</div></div>
+      </div>
+
+      <div class="dermat-section">
+        <h4>Current Skincare Regimen</h4>
+        <div class="data-row"><div class="data-key">AM</div><div class="data-val">Face wash → Vitamin C serum → Moisturizer → SPF 30 (not reapplied)</div></div>
+        <div class="data-row"><div class="data-key">PM</div><div class="data-val">Micellar water → Face wash → Niacinamide serum → Night cream</div></div>
+        <div class="data-row"><div class="data-key">Weekly</div><div class="data-val">Multani mitti mask, haldi-curd pack</div></div>
+        <div class="data-row"><div class="data-key">SPF compliance</div><div class="data-val">Poor reapplication adherence (0-1x reapplication/day despite UV 8+ environment)</div></div>
+      </div>
+
+      <div class="dermat-section">
+        <h4>AI-Generated Differential & Recommendations for Review</h4>
+        <div class="data-row"><div class="data-key">Primary concern</div><div class="data-val">PCOS-associated acne with comedonal pattern. Androgen-driven sebum overproduction likely.</div></div>
+        <div class="data-row"><div class="data-key">Secondary concern</div><div class="data-val">PIH + possible early melasma. Recommend hormonal workup correlation (LH/FSH/Testosterone).</div></div>
+        <div class="data-row"><div class="data-key">AI suggestion</div><div class="data-val">Consider topical retinoid (adapalene 0.1%) for comedonal acne. Evaluate need for oral spironolactone given PCOS + androgenic pattern.</div></div>
+        <div class="data-row"><div class="data-key">Lifestyle notes</div><div class="data-val">Dietary intervention (low GI, reduce dairy) recommended alongside treatment for best outcome.</div></div>
+        <div style="font-size:0.75rem; color:var(--text-light); margin-top:12px; font-style:italic;">⚠️ This report is AI-generated for informational purposes only and does not constitute a medical diagnosis. All recommendations should be evaluated by a qualified dermatologist.</div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div><!-- /content-report -->
+
+
+<!-- ==================== AUTH MODAL ==================== -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-card">
+    <button class="auth-close" onclick="closeAuth()" title="Close">✕</button>
+    <div class="auth-logo">Skin<span>Soul</span></div>
+    <p class="auth-tagline">Your holistic skin health companion 🌸</p>
+
+    <!-- Tab switch -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Sign In</button>
+      <button class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Create Account</button>
+    </div>
+
+    <!-- ── LOGIN FORM ── -->
+    <div class="auth-form active" id="form-login">
+      <div class="auth-error" id="login-error"></div>
+      <div class="auth-field">
+        <label>Email Address</label>
+        <input type="email" id="login-email" placeholder="priya@example.com" autocomplete="email">
+      </div>
+      <div class="auth-field">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="Your password" autocomplete="current-password">
+      </div>
+      <button class="auth-submit" id="login-submit" onclick="handleLogin()">Sign In →</button>
+      <p class="auth-divider">Don't have an account? <a href="#" onclick="switchAuthTab('signup')" style="color:var(--deep-rose);font-weight:600">Create one free</a></p>
+    </div>
+
+    <!-- ── SIGN UP FORM ── -->
+    <div class="auth-form" id="form-signup">
+      <div class="auth-error" id="signup-error"></div>
+      <div class="auth-field">
+        <label>Your Name</label>
+        <input type="text" id="signup-name" placeholder="e.g. Priya" autocomplete="name">
+      </div>
+      <div class="auth-field">
+        <label>Email Address</label>
+        <input type="email" id="signup-email" placeholder="priya@example.com" autocomplete="email">
+      </div>
+      <div class="auth-field">
+        <label>Password <span style="font-weight:400;text-transform:none;letter-spacing:0">(min 8 characters)</span></label>
+        <input type="password" id="signup-password" placeholder="Create a strong password" autocomplete="new-password">
+      </div>
+      <div class="auth-field-row">
+        <div class="auth-field" style="margin-bottom:0">
+          <label>Age</label>
+          <input type="number" id="signup-age" placeholder="e.g. 24" min="13" max="100">
+        </div>
+        <div class="auth-field" style="margin-bottom:0">
+          <label>Gender</label>
+          <select id="signup-gender">
+            <option value="">Prefer not to say</option>
+            <option>Female</option>
+            <option>Male</option>
+            <option>Non-binary</option>
+          </select>
+        </div>
+      </div>
+      <div class="auth-field" style="margin-top:12px">
+        <label>City (for UV Index)</label>
+        <input type="text" id="signup-city" placeholder="e.g. Delhi, Mumbai, Bangalore">
+      </div>
+      <div class="auth-field">
+        <label>Primary Skin Concern</label>
+        <select id="signup-concern">
+          <option value="">Select your main concern</option>
+          <option>Acne &amp; Breakouts</option>
+          <option>Hyperpigmentation</option>
+          <option>Dry Skin</option>
+          <option>Oily Skin</option>
+          <option>Anti-aging</option>
+          <option>Sensitivity</option>
+          <option>Uneven Texture</option>
+          <option>General Skin Health</option>
+        </select>
+      </div>
+      <button class="auth-submit" id="signup-submit" onclick="handleSignup()">Create My SkinSoul Account 🌸</button>
+      <p class="auth-divider">Already have an account? <a href="#" onclick="switchAuthTab('login')" style="color:var(--deep-rose);font-weight:600">Sign in</a></p>
+    </div>
+  </div>
+</div>
+
+
+<!-- AI Analyzing Overlay -->
+<div class="analyzing-overlay" id="analyzingOverlay">
+  <div class="analyzing-orb"></div>
+  <div class="analyzing-text">Analysing your skin...<br><small style="font-size:0.9rem; font-weight:300;">This takes about 10 seconds</small></div>
+  <div class="analyzing-steps" id="analyzingSteps"></div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/* ================================================================
+   SkinSoul — Full App JS with Auth + API Integration
+================================================================ */
+
+// ── Config ────────────────────────────────────────────────────
+// ── IMPORTANT: This must match where your backend is running ──
+// If you see 401 errors, make sure you opened this page via http://localhost:3000
+// NOT as a file:// URL from your filesystem
+const API_BASE = 'http://localhost:3000/api'; // Change for production
+
+// ── Auth helpers ──────────────────────────────────────────────
+const Auth = {
+  getToken: ()  => localStorage.getItem('ss_token'),
+  setToken: (t) => localStorage.setItem('ss_token', t),
+  clearToken: () => localStorage.removeItem('ss_token'),
+  getUser: () => { try { return JSON.parse(localStorage.getItem('ss_user')||'null'); } catch { return null; } },
+  setUser: (u) => localStorage.setItem('ss_user', JSON.stringify(u)),
+  clearUser: () => localStorage.removeItem('ss_user'),
+  isLoggedIn: () => !!localStorage.getItem('ss_token'),
+};
+
+// ── API fetch wrapper ─────────────────────────────────────────
+async function api(method, path, body = null, isForm = false) {
+  const headers = {};
+  const token = Auth.getToken();
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  if (!isForm && body) headers['Content-Type'] = 'application/json';
+  const res = await fetch(API_BASE + path, {
+    method,
+    headers,
+    body: isForm ? body : (body ? JSON.stringify(body) : null),
+  });
+  const data = await res.json();
+  if (!res.ok) throw Object.assign(new Error(data.error || 'Request failed'), { status: res.status });
+  return data;
+}
+
+// ── State ──────────────────────────────────────────────────────
+let waterCount = 5;
+let waterGoal  = 8;
+let pillowDays = 2;
+let currentUser = Auth.getUser();
+let uploadedFile = null;
+
+// ── Init ───────────────────────────────────────────────────────
+async function init() {
+  // Warn if opened as file:// instead of http://
+  if (window.location.protocol === 'file:') {
+    setTimeout(() => {
+      showToast('⚠️', 'Open via http://localhost:3000 — not as a local file!', '');
+      console.error('[SkinSoul] You are running as file:// — auth will not work. Open http://localhost:3000 instead.');
+    }, 1000);
+  }
+  initDate();
+  renderNavUser();
+  renderDashboardAuthState();
+  renderWaterDrops();
+  updateWater();
+  startWaterReminders();
+  startSPFReminders();
+  checkPillowReminder();
+
+  // Always load UV (works for logged-out users too, defaults to Delhi)
+  try {
+    const city = currentUser?.city || 'Delhi';
+    const d = await api('GET', '/uv?city=' + encodeURIComponent(city));
+    document.getElementById('uvValue').textContent  = 'UV ' + d.uv + ' — ' + d.label;
+    document.getElementById('uvAdvice').textContent = d.advice;
+    const cityEl2 = document.getElementById('uvCity');
+    if (cityEl2) cityEl2.textContent = d.city || city;
+  } catch(_) {}
+
+  if (Auth.isLoggedIn()) {
+    try {
+      const d = await api('GET', '/water');
+      waterCount = d.count; waterGoal = d.goal;
+      updateWater();
+    } catch(_) {}
+  }
+}
+
+// ── Nav user area ──────────────────────────────────────────────
+function renderNavUser() {
+  const el = document.getElementById('navUser');
+  if (!el) return;
+  if (Auth.isLoggedIn() && currentUser) {
+    const initials = (currentUser.name || 'U').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    el.innerHTML = `
+      <span class="nav-username">${currentUser.name}</span>
+      <div class="nav-avatar" title="Your account">${initials}</div>
+      <button class="nav-logout-btn" onclick="handleLogout()">Sign Out</button>`;
+  } else {
+    el.innerHTML = `
+      <button class="nav-user-btn nav-login-btn" onclick="openAuth('login')">Sign In</button>
+      <button class="nav-user-btn nav-signup-btn" onclick="openAuth('signup')">Sign Up</button>`;
+  }
+}
+
+// ── Dashboard auth state ───────────────────────────────────────
+function renderDashboardAuthState() {
+  const banner = document.getElementById('welcomeBanner');
+  if (!banner) return;
+  banner.style.display = Auth.isLoggedIn() ? 'none' : 'block';
+  if (Auth.isLoggedIn() && currentUser) {
+    const h = new Date().getHours();
+    const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+    document.querySelector('.greeting-section h1').innerHTML =
+      greet + ',<br><em id="userName">' + currentUser.name + '</em> ✨';
+  }
+}
+
+// ── Navigation ─────────────────────────────────────────────────
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  const idx  = ['dashboard','scan','lifestyle','report'].indexOf(page);
+  if (tabs[idx]) tabs[idx].classList.add('active');
+}
+
+// Pages that require auth
+function guardedPage(page) {
+  if (Auth.isLoggedIn()) {
+    // Hide gate, show real content
+    const gate = document.getElementById('gate-' + page);
+    const content = document.getElementById('content-' + page);
+    if (gate) gate.classList.remove('show');
+    if (content) content.style.display = '';
+    showPage(page);
+  } else {
+    // Show gate, hide real content
+    const gate = document.getElementById('gate-' + page);
+    const content = document.getElementById('content-' + page);
+    if (gate) gate.classList.add('show');
+    if (content) content.style.display = 'none';
+    showPage(page);
+  }
+}
+
+// ── Auth modal ─────────────────────────────────────────────────
+function openAuth(tab = 'login') {
+  document.getElementById('authOverlay').classList.add('show');
+  switchAuthTab(tab);
+  // Focus first input after animation
+  setTimeout(() => {
+    const inp = document.getElementById(tab === 'login' ? 'login-email' : 'signup-name');
+    if (inp) inp.focus();
+  }, 350);
+}
+
+function closeAuth() {
+  document.getElementById('authOverlay').classList.remove('show');
+}
+
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('form-' + tab).classList.add('active');
+  // Clear errors
+  document.querySelectorAll('.auth-error').forEach(e => { e.classList.remove('show'); e.textContent = ''; });
+}
+
+function showAuthError(form, msg) {
+  const el = document.getElementById(form + '-error');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+// Close modal on overlay click
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('authOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeAuth();
+  });
+  // Enter key on login form
+  document.getElementById('login-password').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleLogin();
+  });
+  document.getElementById('signup-city').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSignup();
+  });
+});
+
+// ── Login ─────────────────────────────────────────────────────
+async function handleLogin() {
+  const email    = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+
+  if (!email || !password) { showAuthError('login', 'Please enter your email and password.'); return; }
+
+  const btn = document.getElementById('login-submit');
+  btn.disabled = true; btn.textContent = 'Signing in...';
+
+  try {
+    const data = await api('POST', '/auth/login', { email, password });
+    Auth.setToken(data.token);
+    Auth.setUser(data.user);
+    currentUser = data.user;
+    closeAuth();
+    renderNavUser();
+    renderDashboardAuthState();
+    showToast('🌸', 'Welcome back, ' + data.user.name + '!', '');
+
+    // Sync water from server
+    try {
+      const w = await api('GET', '/water');
+      waterCount = w.count; waterGoal = w.goal; updateWater();
+    } catch(_) {}
+
+    // Refresh UV for user's city
+    try {
+      const uv = await api('GET', '/uv');
+      document.getElementById('uvValue').textContent  = 'UV ' + uv.uv + ' — ' + uv.label;
+      document.getElementById('uvAdvice').textContent = uv.advice;
+      const citySpan = document.getElementById('uvCity');
+      if (citySpan) citySpan.textContent = uv.city || (currentUser && currentUser.city) || 'Your City';
+    } catch(_) {}
+
+  } catch(err) {
+    showAuthError('login', err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Sign In →';
+  }
+}
+
+// ── Sign Up ────────────────────────────────────────────────────
+async function handleSignup() {
+  const name    = document.getElementById('signup-name').value.trim();
+  const email   = document.getElementById('signup-email').value.trim();
+  const password= document.getElementById('signup-password').value;
+  const age     = document.getElementById('signup-age').value;
+  const gender  = document.getElementById('signup-gender').value;
+  const city    = document.getElementById('signup-city').value.trim();
+  const concern = document.getElementById('signup-concern').value;
+
+  if (!name)     { showAuthError('signup', 'Please enter your name.'); return; }
+  if (!email)    { showAuthError('signup', 'Please enter your email address.'); return; }
+  if (!password) { showAuthError('signup', 'Please create a password.'); return; }
+  if (password.length < 8) { showAuthError('signup', 'Password must be at least 8 characters.'); return; }
+
+  const btn = document.getElementById('signup-submit');
+  btn.disabled = true; btn.textContent = 'Creating your account...';
+
+  try {
+    const data = await api('POST', '/auth/register', { name, email, password, age: age || null, gender: gender || null, city: city || 'Delhi' });
+    Auth.setToken(data.token);
+    Auth.setUser(data.user);
+    currentUser = data.user;
+
+    // If they selected a skin concern, save it to medical profile
+    if (concern) {
+      try { await api('PATCH', '/lifestyle/medical', { skinConditions: [concern] }); } catch(_) {}
+    }
+
+    closeAuth();
+    renderNavUser();
+    renderDashboardAuthState();
+    showToast('🌸', 'Welcome to SkinSoul, ' + data.user.name + '! Your journey begins now.', '');
+
+    // Refresh UV for their city
+    try {
+      const uv = await api('GET', '/uv');
+      document.getElementById('uvValue').textContent  = 'UV ' + uv.uv + ' — ' + uv.label;
+      document.getElementById('uvAdvice').textContent = uv.advice;
+      const citySpan = document.getElementById('uvCity');
+      if (citySpan) citySpan.textContent = uv.city || (currentUser && currentUser.city) || 'Your City';
+    } catch(_) {}
+
+  } catch(err) {
+    showAuthError('signup', err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Create My SkinSoul Account 🌸';
+  }
+}
+
+// ── Logout ─────────────────────────────────────────────────────
+function handleLogout() {
+  Auth.clearToken(); Auth.clearUser();
+  currentUser = null; waterCount = 5;
+  renderNavUser(); renderDashboardAuthState();
+  showPage('dashboard');
+  showToast('👋', 'You\'ve been signed out. See you soon!', '');
+}
+
+// ── Date ───────────────────────────────────────────────────────
+function initDate() {
+  const now    = new Date();
+  const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const h      = now.getHours();
+  const greet  = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  const name   = currentUser?.name || 'there';
+  document.querySelector('.greeting-section h1').innerHTML = greet + ',<br><em id="userName">' + name + '</em> ✨';
+  document.getElementById('todayDate').textContent   = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()];
+  document.getElementById('petDate').textContent     = days[now.getDay()] + "'s companion";
+  document.getElementById('reportDate').textContent  = now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+}
+
+// ── Water ──────────────────────────────────────────────────────
+function renderWaterDrops() {
+  const c = document.getElementById('waterDrops');
+  if (!c) return;
+  c.innerHTML = '';
+  for (let i = 0; i < waterGoal; i++) {
+    const d = document.createElement('div');
+    d.className = 'drop' + (i < waterCount ? ' filled' : '');
+    d.onclick = () => { if (i >= waterCount) { waterCount = i + 1; updateWater(); } };
+    d.innerHTML = '<svg viewBox="0 0 30 38"><path d="M15 2 Q28 15 28 24 A13 13 0 0 1 2 24 Q2 15 15 2Z" fill="' + (i < waterCount ? '#7BB8D4' : 'rgba(123,184,212,0.2)') + '"/></svg>';
+    c.appendChild(d);
+  }
+}
+
+function updateWater() {
+  renderWaterDrops();
+  const pct = (waterCount / waterGoal) * 100;
+  const fill = document.getElementById('waterProgressFill');
+  if (fill) fill.style.width = pct + '%';
+  const sc = document.getElementById('waterStatusCard');
+  if (sc) sc.textContent = waterCount + ' / ' + waterGoal + ' glasses today';
+  const msgs = ['Just starting — your skin is thirsty!', "Keep going! You're on your way 💧", 'Halfway there! Skin is loving this.', 'Almost there! Two more to go 🌊', 'You hit your goal! Dewdrop is glowing! ✨'];
+  const idx = waterCount >= waterGoal ? 4 : Math.floor((waterCount / waterGoal) * 4);
+  const wc = document.getElementById('waterCount');
+  if (wc) wc.textContent = waterCount + ' of ' + waterGoal + ' glasses · ' + msgs[idx];
+  const petDrops = document.querySelectorAll('.pet-drop');
+  petDrops.forEach((d, i) => { d.style.display = waterCount >= (i + 1) * 2 ? 'block' : 'none'; });
+  if (waterCount >= waterGoal) showToast('🎉', 'Goal reached! Dewdrop is glowing!', 'water-toast');
+}
+
+async function logWater() {
+  if (!Auth.isLoggedIn()) {
+    if (waterCount < waterGoal) { waterCount++; updateWater(); showToast('💧', 'Water logged! ' + waterCount + '/' + waterGoal + ' done.', 'water-toast'); }
+    else showToast('✨', "You've hit your water goal today! Amazing!", 'water-toast');
+    return;
+  }
+  try {
+    const d = await api('POST', '/water/add');
+    waterCount = d.count; waterGoal = d.goal; updateWater();
+    showToast(d.goalReached ? '🎉' : '💧', d.message, 'water-toast');
+  } catch(_) {
+    if (waterCount < waterGoal) { waterCount++; updateWater(); }
+    showToast('💧', 'Water logged!', 'water-toast');
+  }
+}
+
+// ── Reminders ──────────────────────────────────────────────────
+function startWaterReminders() {
+  setTimeout(() => showToast('💧', "Time to drink water! It's been 1.5 hours. Dewdrop is reminding you! 🌱", 'water-toast'), 5000);
+  setInterval(() => showToast('💧', 'Hydration check! Time for another glass. 💙', 'water-toast'), 90 * 60 * 1000);
+}
+function startSPFReminders() {
+  setTimeout(() => showToast('🧴', "Reapply your sunscreen now. Don't let those rays win!", 'spf-toast'), 15000);
+  setInterval(() => showToast('🧴', 'SPF check! Time to reapply your sunscreen.', 'spf-toast'), 2 * 60 * 60 * 1000);
+}
+function checkPillowReminder() {
+  if (pillowDays >= 2) setTimeout(() => showToast('🛏️', 'Reminder: Change your pillowcase! Fresh pillowcase = fewer breakouts!', 'pillow-toast'), 25000);
+}
+
+// ── Toast ──────────────────────────────────────────────────────
+function showToast(icon, message, type = '') {
+  const c = document.getElementById('toastContainer');
+  if (!c) return;
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.innerHTML = '<span class="toast-icon">' + icon + '</span><span>' + message + '</span>';
+  t.onclick = () => t.remove();
+  c.appendChild(t);
+  setTimeout(() => { t.style.transition = 'opacity 0.5s'; t.style.opacity = '0'; setTimeout(() => t.remove(), 500); }, 6000);
+}
+
+// ── Lifestyle ──────────────────────────────────────────────────
+function showLifeTab(tab) {
+  document.querySelectorAll('.life-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.lifestyle-form').forEach(f => f.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('form-' + tab).classList.add('active');
+}
+function toggleChip(el) { el.classList.toggle('selected'); }
+
+async function saveSection(section) {
+  if (!Auth.isLoggedIn()) { showToast('🔐', 'Please sign in to save your lifestyle data.', ''); openAuth('login'); return; }
+  const form = document.getElementById('form-' + section);
+  if (!form) return;
+  // Collect chip selections
+  const chips = {};
+  form.querySelectorAll('.chip-selector').forEach(g => {
+    const label = g.previousElementSibling?.textContent?.trim() || 'habits';
+    chips[label] = [...g.querySelectorAll('.chip.selected')].map(c => c.textContent.trim());
+  });
+  // Collect inputs/selects
+  const fields = {};
+  form.querySelectorAll('select, input, textarea').forEach(el => {
+    if (el.id && el.value) fields[el.id] = el.value;
+  });
+  const payload = { ...fields, ...chips };
+  showToast('⏳', 'Saving ' + section + ' profile...', '');
+  try {
+    await api('PATCH', '/lifestyle/' + section, payload);
+    showToast('✓', section.charAt(0).toUpperCase() + section.slice(1) + ' profile saved! AI analysis will update. ✓', '');
+  } catch(err) {
+    showToast('⚠️', 'Could not save: ' + err.message, '');
+  }
+}
+
+// ── Report ──────────────────────────────────────────────────────
+function showReport(type) {
+  document.querySelectorAll('.simplified-report, .dermat-report').forEach(r => r.classList.remove('active'));
+  document.querySelectorAll('.rtoggle').forEach(t => t.classList.remove('active'));
+  document.getElementById(type + '-report').classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── Photo Upload ───────────────────────────────────────────────
+function handlePhotoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  uploadedFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('previewImg').src = e.target.result;
+    document.getElementById('scanPreview').style.display = 'block';
+    document.getElementById('uploadArea').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+function handleDrop(event) {
+  event.preventDefault();
+  document.getElementById('uploadArea').classList.remove('dragover');
+  const file = event.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    uploadedFile = file;
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('previewImg').src = e.target.result;
+      document.getElementById('scanPreview').style.display = 'block';
+      document.getElementById('uploadArea').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+// ── AI Analysis ────────────────────────────────────────────────
+async function runAIAnalysis() {
+  // Debug: log auth and file state
+  const token = Auth.getToken();
+  console.log('[Scan] Token:', token ? token.substring(0,20) + '...' : 'MISSING');
+  console.log('[Scan] uploadedFile:', uploadedFile ? uploadedFile.name + ' (' + uploadedFile.size + ' bytes)' : 'MISSING');
+  console.log('[Scan] API_BASE:', API_BASE);
+  console.log('[Scan] isLoggedIn:', Auth.isLoggedIn());
+
+  if (!Auth.isLoggedIn()) {
+    showToast('🔐', 'Please sign in first — click Sign In in the top right.', '');
+    openAuth('login');
+    return;
+  }
+  if (!uploadedFile) {
+    showToast('⚠️', 'Please upload a photo first — click the upload area above.', '');
+    return;
+  }
+
+  const overlay        = document.getElementById('analyzingOverlay');
+  const stepsContainer = document.getElementById('analyzingSteps');
+  overlay.classList.add('show');
+  stepsContainer.innerHTML = '';
+
+  const steps = [
+    'Uploading your photo securely...',
+    'Detecting skin type and hydration markers...',
+    'Mapping pore size and distribution...',
+    'Analysing pigmentation and texture...',
+    'Correlating with your lifestyle data...',
+    'Checking diet-skin correlation patterns...',
+    'Generating your personalised report...',
+    'Creating nuskhe recommendations...',
+  ];
+
+  let stepIdx = 0;
+  const addStep = text => {
+    const s = document.createElement('div');
+    s.className = 'step-item'; s.style.animationDelay = '0s'; s.textContent = text;
+    stepsContainer.appendChild(s);
+  };
+
+  // Start showing steps immediately while API runs in parallel
+  addStep(steps[stepIdx++]);
+  const stepTimer = setInterval(() => {
+    if (stepIdx < steps.length) addStep(steps[stepIdx++]);
+  }, 1800);
+
+  try {
+    const formData = new FormData();
+    formData.append('image', uploadedFile);
+
+    // API call runs while steps animate
+    const data = await api('POST', '/analysis/scan', formData, true);
+
+    clearInterval(stepTimer);
+    while (stepIdx < steps.length) addStep(steps[stepIdx++]);
+    await new Promise(r => setTimeout(r, 500));
+    overlay.classList.remove('show');
+
+    // Show results immediately
+    applyAnalysisToUI(data.result);
+    guardedPage('report');
+    document.querySelectorAll('.rtoggle').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.simplified-report, .dermat-report').forEach(r => r.classList.remove('active'));
+    document.querySelector('.rtoggle')?.classList.add('active');
+    document.querySelector('.simplified-report')?.classList.add('active');
+
+    showToast('✨', 'Skin score: ' + data.result.skinScore + '/100 · Report ready! 🌸', '');
+
+    // Show loading placeholders then load deeper reports
+    showReportLoadingPlaceholders();
+    loadFullReports();
+
+  } catch(err) {
+    clearInterval(stepTimer);
+    overlay.classList.remove('show');
+    console.error('[Scan] Error:', err.status, err.message);
+    if (err.status === 401) {
+      Auth.clearToken(); Auth.clearUser(); currentUser = null;
+      renderNavUser();
+      showToast('🔐', 'Session expired — please sign in again.', '');
+      openAuth('login');
+    } else if (err.status === 400) {
+      showToast('⚠️', 'Image could not be read. Please try a JPEG or PNG photo under 10MB.', '');
+    } else if (err.status === 429) {
+      showToast('⏳', 'AI is busy. Please wait a moment and try again.', '');
+    } else if (err.status === 500) {
+      showToast('⚠️', 'Server error. Check that ANTHROPIC_API_KEY is set in your .env file.', '');
+    } else {
+      showToast('⚠️', 'Analysis failed: ' + (err.message || 'Unknown error. Check console for details.'), '');
+    }
+  }
+}
+
+function applyAnalysisToUI(result) {
+  if (!result) return;
+
+  // Score number
+  const scoreNum = document.querySelector('.score-num');
+  if (scoreNum) scoreNum.textContent = result.skinScore ?? 72;
+
+  // Score label
+  const score = result.skinScore || 72;
+  const label = score >= 85 ? 'Glowing ✨' : score >= 70 ? 'Good — Keep Going!' : score >= 55 ? 'Needs Some Love 💛' : 'Work In Progress 💪';
+  const scoreH3 = document.querySelector('.score-info h3');
+  if (scoreH3) scoreH3.textContent = 'Skin Health Score: ' + label;
+
+  const scoreP = document.querySelector('.score-info p');
+  if (scoreP) {
+    const hydration = result.hydrationLevel ? ' · Hydration: ' + result.hydrationLevel + '/10' : '';
+    scoreP.textContent = 'Skin type: ' + (result.skinType || 'Combination') + hydration + '. Your personalised report is below.';
+  }
+
+  // Concerns
+  const concernCard = document.querySelector('.insight-card:first-child');
+  if (concernCard && result.concerns && result.concerns.length) {
+    concernCard.innerHTML = '<h4>⚠️ Concerns Found</h4>' +
+      result.concerns.map(c =>
+        '<div class="insight-item">' +
+        '<div class="insight-dot" style="background:' + (c.color || '#E76F51') + ';width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px"></div>' +
+        '<span><strong>' + (c.issue || '') + (c.severity ? ' (' + c.severity + ')' : '') + '</strong>' +
+        (c.description ? ' — ' + c.description : '') + '</span></div>'
+      ).join('');
+  }
+
+  // Positives
+  const posCard = document.querySelector('.insight-card:last-child');
+  if (posCard && result.positives && result.positives.length) {
+    posCard.innerHTML = "<h4>✅ What's Working</h4>" +
+      result.positives.map(p =>
+        '<div class="insight-item">' +
+        '<div class="insight-dot dot-good" style="width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;background:#8BAF8D"></div>' +
+        '<span>' + (p.description || p.aspect || '') + '</span></div>'
+      ).join('');
+  }
+
+  // Show first immediate action as a tip toast
+  if (result.immediateActions && result.immediateActions.length) {
+    setTimeout(() => showToast('💡', result.immediateActions[0], ''), 2500);
+  }
+}
+
+function showReportLoadingPlaceholders() {
+  const cs = document.querySelector('.changes-section');
+  if (cs) cs.innerHTML = '<h3>🔄 Gentle Changes We Suggest</h3>' +
+    '<div style="padding:20px;text-align:center;color:var(--text-light);font-size:0.88rem">Generating your personalised recommendations... ⏳</div>';
+  const ng = document.querySelector('.nuskhe-grid');
+  if (ng) ng.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-light);font-size:0.88rem;grid-column:1/-1">Preparing your ghar ke nuskhe... 🌿</div>';
+}
+
+async function loadFullReports() {
+  try {
+    const r = await api('GET', '/report/user');
+    if (r.report && r.report.suggestedChanges && r.report.suggestedChanges.length) {
+      const cs = document.querySelector('.changes-section');
+      if (cs) cs.innerHTML = '<h3>🔄 Gentle Changes We Suggest</h3>' +
+        r.report.suggestedChanges.map(c =>
+          '<div class="change-item">' +
+          '<div class="change-arrow arrow-' + (c.category || 'skin') + '">' + (c.emoji || '✨') + '</div>' +
+          '<div class="change-content"><h5>' + c.title + '</h5><p>' + c.description + '</p>' +
+          '<span style="font-size:0.72rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.06em">' + (c.priority || '') + ' priority</span>' +
+          '</div></div>'
+        ).join('');
+    }
+    if (r.report && r.report.gharKeNuskhe && r.report.gharKeNuskhe.length) {
+      const ng = document.querySelector('.nuskhe-grid');
+      if (ng) ng.innerHTML = r.report.gharKeNuskhe.map(n =>
+        '<div class="nuskhe-card">' +
+        '<div class="n-icon">' + n.emoji + '</div>' +
+        '<h5>' + n.name + '</h5>' +
+        '<p>' + n.ingredients + '</p>' +
+        '<p style="margin-top:4px;color:var(--text-mid)">' + n.method + ' · ' + n.frequency + '</p>' +
+        '</div>'
+      ).join('');
+    }
+    if (r.report && r.report.motivationalNote) {
+      setTimeout(() => showToast('🌸', r.report.motivationalNote, ''), 1000);
+    }
+  } catch(e) {
+    console.warn('User report failed:', e.message);
+    const cs = document.querySelector('.changes-section');
+    if (cs) cs.innerHTML = '<h3>🔄 Gentle Changes We Suggest</h3>' +
+      '<div style="padding:16px;color:var(--text-light);font-size:0.85rem">Could not load personalised suggestions. Please try the Report tab again.</div>';
+  }
+
+  try {
+    const cr = await api('GET', '/report/clinical');
+    if (!cr.report) return;
+    const dr = document.querySelector('.dermat-report');
+    if (!dr) return;
+    const date = new Date(cr.generatedAt).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+    let html = '<div class="dermat-banner">🩺 <strong>Clinical Summary for Dermatologist Review</strong> &nbsp;·&nbsp; SkinSoul AI &nbsp;·&nbsp; ' + date + '</div>';
+    if (cr.patientName) {
+      html += '<div class="dermat-section"><h4>Patient</h4>' +
+        '<div class="data-row"><div class="data-key">Name</div><div class="data-val">' + cr.patientName + '</div></div>';
+      if (cr.report.patientSummary) {
+        if (cr.report.patientSummary.fitzpatrickScale) html += '<div class="data-row"><div class="data-key">Fitzpatrick</div><div class="data-val">' + cr.report.patientSummary.fitzpatrickScale + '</div></div>';
+        if (cr.report.patientSummary.chiefComplaint) html += '<div class="data-row"><div class="data-key">Chief complaint</div><div class="data-val">' + cr.report.patientSummary.chiefComplaint + '</div></div>';
+      }
+      html += '</div>';
+    }
+    if (cr.report.aiFindings && cr.report.aiFindings.length) {
+      html += '<div class="dermat-section"><h4>AI Visual Findings</h4>';
+      cr.report.aiFindings.forEach(f => {
+        html += '<div class="data-row"><div class="data-key">' + f.finding + '</div>' +
+          '<div class="data-val">' + f.severity + (f.location ? ' · ' + f.location : '') +
+          (f.differentialDiagnosis ? '<br><small style="color:var(--text-light)">' + f.differentialDiagnosis + '</small>' : '') +
+          '</div></div>';
+      });
+      html += '</div>';
+    }
+    if (cr.report.lifestyleSummary) {
+      html += '<div class="dermat-section"><h4>Lifestyle (Patient Reported)</h4>';
+      Object.entries(cr.report.lifestyleSummary).forEach(([k, v]) => {
+        html += '<div class="data-row"><div class="data-key">' + k.charAt(0).toUpperCase() + k.slice(1) + '</div><div class="data-val">' + v + '</div></div>';
+      });
+      html += '</div>';
+    }
+    if (cr.report.aiRecommendations && cr.report.aiRecommendations.length) {
+      html += '<div class="dermat-section"><h4>AI Recommendations for Review</h4>';
+      cr.report.aiRecommendations.forEach(rec => {
+        html += '<div class="data-row"><div class="data-key">' + rec.type + '</div>' +
+          '<div class="data-val">' + rec.suggestion +
+          (rec.rationale ? '<br><small style="color:var(--text-light)">' + rec.rationale + '</small>' : '') +
+          '</div></div>';
+      });
+      html += '</div>';
+    }
+    if (cr.report.flaggedForReview && cr.report.flaggedForReview.length) {
+      html += '<div class="dermat-section" style="border-left:3px solid #E76F51"><h4>⚠️ Flagged for Review</h4>';
+      cr.report.flaggedForReview.forEach(f => {
+        html += '<div class="data-row"><div class="data-key">Note</div><div class="data-val">' + f + '</div></div>';
+      });
+      html += '</div>';
+    }
+    if (cr.report.disclaimer) html += '<p style="font-size:0.75rem;color:var(--text-light);margin-top:12px;font-style:italic;padding:16px 0">⚠️ ' + cr.report.disclaimer + '</p>';
+    dr.innerHTML = html;
+  } catch(e) {
+    console.warn('Clinical report failed:', e.message);
+  }
+}
+
+// ── UV Detail ──────────────────────────────────────────────────
+function showUVDetail() {
+  const val   = document.getElementById('uvValue').textContent;
+  const advice = document.getElementById('uvAdvice').textContent;
+  showToast('☀️', val + '. ' + advice, 'spf-toast');
+}
+
+init();
+</script>
+</body>
+</html>
